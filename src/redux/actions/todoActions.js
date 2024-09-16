@@ -6,7 +6,7 @@ export const EDIT_TODO = 'EDIT_TODO';
 export const DELETE_TODO = 'DELETE_TODO';
 
 const apiUrl = 'https://dummyjson.com/todos';
-
+// data from api
 export const fetchTodos = () => async dispatch => {
   try {
     const response = await axios.get(apiUrl);
@@ -19,7 +19,7 @@ export const fetchTodos = () => async dispatch => {
     console.error('Error fetching todos:', error);
   }
 };
-
+// adding todo
 export const addTodo = (todoText) => async (dispatch, getState) => {
   try {
     const randomUserId = Math.floor(Math.random() * 100) + 1;
@@ -29,50 +29,39 @@ export const addTodo = (todoText) => async (dispatch, getState) => {
 
     const newid = TODOS.length + 1;
 
-    console.log(newid);
+    console.log('Generated ID:', newid);
 
-    const response = await axios.post(`${apiUrl}/add`, {
-
-      id: newid,
+    const todoItem = {
+      id: newid,  
       todo: todoText,
       completed: false,
       userId: randomUserId,
-    },
+    };
 
-     {
+    // Send the todo item to the backend
+    const response = await axios.post(`${apiUrl}/add`, todoItem, {
       headers: {
         'Content-Type': 'application/json'
       }
     });
-  
-    console.log(response.data, "current response");
 
+    console.log('Backend response:', response.data);
     dispatch({
       type: ADD_TODO,
-      payload: response.data
+      payload: todoItem  
     });
   } catch (error) {
     console.error('Error adding todo:', error);
   }
 };
 
+// editing existing data
 export const editTodo = (todo) => async (dispatch) => {
   console.log('editTodo action called', todo);
 
   try {
     const url = `${apiUrl}/${todo.id}`;
-    console.log('Making PUT request to:', url);
-
-    if (todo.id > 30) {
-      dispatch({
-        type: EDIT_TODO,
-        payload: {
-          id : todo.id,
-          todo: todo.todo,
-          completed: todo.completed,
-        },
-      });
-    }
+    console.log('Making PUT request to:', url)
 
     const response = await axios.put(
       url,
@@ -99,15 +88,10 @@ export const editTodo = (todo) => async (dispatch) => {
   }
  
 };
-
+// deletete existing todo
 export const deleteTodo = (id) => async dispatch => {
   try {
-    if (id > 30) {
-      dispatch({
-        type:  DELETE_TODO,
-        payload:id,
-      });
-    }
+   
     const response = await axios.delete(`${apiUrl}/${id}`, {
       headers: {
         'Content-Type': 'application/json'

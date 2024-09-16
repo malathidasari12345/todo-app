@@ -9,6 +9,7 @@ const EditTodo = ({ todo, setIsEditing }) => {
   const [completed, setCompleted] = useState(todo.completed);
   const dispatch = useDispatch();
 
+  
   const handleSave = () => {
     dispatch(editTodo({
       ...todo,
