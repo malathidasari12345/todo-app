@@ -4,6 +4,7 @@ import { TextField, Button, FormControl, FormControlLabel, Checkbox, FormGroup }
 import { editTodo } from '../redux/actions/todoActions';
 
 const EditTodo = ({ todo, setIsEditing }) => {
+  const [id, setId] = useState(todo.id);
   const [text, setText] = useState(todo.todo);
   const [completed, setCompleted] = useState(todo.completed);
   const dispatch = useDispatch();
