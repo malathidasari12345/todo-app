@@ -22,16 +22,29 @@ export const fetchTodos = () => async dispatch => {
   }
 };
 
-export const addTodo = (todoText) => async dispatch => {
+export const addTodo = (todoText) => async (dispatch, getState) => {
   try {
     const randomUserId = Math.floor(Math.random() * 100) + 1;
-    
+
+    const TODOS = getState().todos;
+    console.log('Current state TODOS:', TODOS);
+
+    const newid = TODOS.length + 1;
+
+    console.log(newid);
+
     const response = await axios.post(`${apiUrl}/add`, {
+      id: newid,
       todo: todoText,
       completed: false,
-      userId:  randomUserId,
+      userId: randomUserId,
+    }, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
     });
-    console.log(response)
+  
+    console.log(response, "current response");
 
     dispatch({
       type: ADD_TODO,
@@ -41,6 +54,8 @@ export const addTodo = (todoText) => async dispatch => {
     console.error('Error adding todo:', error);
   }
 };
+
+
 
 export const editTodo = (todo) => async dispatch => {
   console.log('editTodo action called', todo);
