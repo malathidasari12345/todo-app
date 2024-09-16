@@ -19,7 +19,7 @@ const TodoItem = ({ todo }) => {
     <Card 
       sx={{ 
         width: '280px',
-        height:"300px",
+        height:"250px",
         margin: '18px', 
         textAlign:"center",
       }}
@@ -32,10 +32,9 @@ const TodoItem = ({ todo }) => {
          :
          (
           <Stack spacing={3} alignItems="center">
-            <Typography> <b>Id:</b> {todo.id }</Typography>
+
             <Typography> <b>Todo:</b> {todo.todo}</Typography>
             <Typography><b>Completed:</b> {todo.completed ? "Yes" : "No"}</Typography>
-            <Typography> <b>UserId:</b> {todo.userId }</Typography>
             <Stack direction="row" spacing={2}>
               <Button 
                 onClick={handleEdit} 

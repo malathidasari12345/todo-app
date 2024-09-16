@@ -10,9 +10,7 @@ const apiUrl = 'https://dummyjson.com/todos';
 export const fetchTodos = () => async dispatch => {
   try {
     const response = await axios.get(apiUrl);
-
     console.log('Response data:', response.data);
-
     dispatch({
       type: FETCH_TODOS,
       payload: response.data.todos
@@ -34,17 +32,20 @@ export const addTodo = (todoText) => async (dispatch, getState) => {
     console.log(newid);
 
     const response = await axios.post(`${apiUrl}/add`, {
+
       id: newid,
       todo: todoText,
       completed: false,
       userId: randomUserId,
-    }, {
+    },
+
+     {
       headers: {
         'Content-Type': 'application/json'
       }
     });
   
-    console.log(response, "current response");
+    console.log(response.data, "current response");
 
     dispatch({
       type: ADD_TODO,
@@ -55,35 +56,69 @@ export const addTodo = (todoText) => async (dispatch, getState) => {
   }
 };
 
-
-
-export const editTodo = (todo) => async dispatch => {
+export const editTodo = (todo) => async (dispatch) => {
   console.log('editTodo action called', todo);
+
   try {
     const url = `${apiUrl}/${todo.id}`;
     console.log('Making PUT request to:', url);
-    
-    const response = await axios.put(url,{
-      todo: todo.todo, 
-      completed: todo.completed
-    }, {
-      headers: {
-        'Content-Type': 'application/json'
+
+    if (todo.id > 30) {
+      console.log("grater than 30")
+      // Dispatching the action optimistically before the API call
+      dispatch({
+        type: EDIT_TODO,
+        payload: {
+          id : todo.id,
+          todo: todo.todo,
+          completed: todo.completed,
+        },
+      });
+    }
+
+    // Making the PUT request to update the todo
+    const response = await axios.put(
+      url,
+      {
+        todo: todo.todo,
+        completed: todo.completed,
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        }
       }
-    });
-    console.log('Response received:', response.data);
-    
+    );
+
+    console.log('Response received:', response);
+
     dispatch({
       type: EDIT_TODO,
-      payload: response.data  
+      payload: response.data, 
     });
+    console.log(response.data)
   } catch (error) {
     console.error('Error editing todo:', error.message);
   }
+ 
 };
+
+
+
+
 
 export const deleteTodo = (id) => async dispatch => {
   try {
+    if (id > 30) {
+      console.log("grater than 30")
+      // Dispatching the action optimistically before the API call
+      dispatch({
+        type: EDIT_TODO,
+        payload: {
+          id : id,
+        },
+      });
+    }
     const response = await axios.delete(`${apiUrl}/${id}`, {
       headers: {
         'Content-Type': 'application/json'
