@@ -32,7 +32,8 @@ const TodoItem = ({ todo }) => {
          :
          (
           <Stack spacing={3} alignItems="center">
-            <Typography> <b>Id:</b> {todo.id}</Typography>
+            <Typography> <b>UserId:</b> {todo.userId
+            }</Typography>
             <Typography> <b>Todo:</b> {todo.todo}</Typography>
             <Typography><b>Completed:</b> {todo.completed ? "Yes" : "No"}</Typography>
             <Stack direction="row" spacing={2}>
