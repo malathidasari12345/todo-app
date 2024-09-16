@@ -100,18 +100,12 @@ export const editTodo = (todo) => async (dispatch) => {
  
 };
 
-
-
-
-
 export const deleteTodo = (id) => async dispatch => {
   try {
     if (id > 30) {
       dispatch({
         type:  DELETE_TODO,
-        payload: {
-          id : id,
-        },
+        payload:id,
       });
     }
     const response = await axios.delete(`${apiUrl}/${id}`, {
