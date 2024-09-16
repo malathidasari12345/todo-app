@@ -4,7 +4,6 @@ import { TextField, Button, FormControl, FormControlLabel, Checkbox, FormGroup }
 import { editTodo } from '../redux/actions/todoActions';
 
 const EditTodo = ({ todo, setIsEditing }) => {
-  const [id, setId] = useState(todo.id);
   const [text, setText] = useState(todo.todo);
   const [completed, setCompleted] = useState(todo.completed);
   const dispatch = useDispatch();
@@ -21,15 +20,6 @@ const EditTodo = ({ todo, setIsEditing }) => {
 
   return (
     <div>
-      <TextField
-        label="ID"
-        variant="outlined"
-        value={id}
-        onChange={(e) => setId(e.target.value)}
-        fullWidth
-        margin="normal"
-        disabled 
-      />
       <TextField
         label="Todo"
         variant="outlined"
