@@ -64,8 +64,6 @@ export const editTodo = (todo) => async (dispatch) => {
     console.log('Making PUT request to:', url);
 
     if (todo.id > 30) {
-      console.log("grater than 30")
-      // Dispatching the action optimistically before the API call
       dispatch({
         type: EDIT_TODO,
         payload: {
@@ -76,7 +74,6 @@ export const editTodo = (todo) => async (dispatch) => {
       });
     }
 
-    // Making the PUT request to update the todo
     const response = await axios.put(
       url,
       {
@@ -110,10 +107,8 @@ export const editTodo = (todo) => async (dispatch) => {
 export const deleteTodo = (id) => async dispatch => {
   try {
     if (id > 30) {
-      console.log("grater than 30")
-      // Dispatching the action optimistically before the API call
       dispatch({
-        type: EDIT_TODO,
+        type:  DELETE_TODO,
         payload: {
           id : id,
         },
